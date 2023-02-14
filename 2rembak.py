@@ -5,6 +5,7 @@
 # Copyright (c) 2023, Christer Karlsen
 # License: MIT License
 #
+
 import os
 import argparse
 import logging
@@ -27,9 +28,9 @@ def copy_home_dir(args):
         logging.error("Error: argument must be either -c or --connect")
         return
     target_dir = "bak_" + ''.join(random.choices(string.hexdigits, k=2))
-    target = "{}:{}".format(args.hostalias, target_dir)
+    target = "{}:{}".format(args.hostalias, "~")
     try:
-        os.system("scp -F {} $HOME {}".format(ssh_config, target))
+        os.system("scp -F {} {} {}".format(ssh_config, target, target_dir))
         logging.info("Successfully copied home directory to {}".format(target_dir))
     except Exception as e:
         logging.error("Error: {}".format(e))
@@ -44,4 +45,3 @@ if __name__ == '__main__':
     console.setLevel(logging.INFO)
     logging.getLogger().addHandler(console)
     copy_home_dir(args)
-
